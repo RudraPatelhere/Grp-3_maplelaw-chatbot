@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAPLELAW Chatbot</title>
+
+    <!-- Google Fonts for a modern look -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" />
+
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body background and layout */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #EEF1F7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Container is wider to use more screen space */
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin: 20px 0; /* Some vertical space from the top */
+        }
+
+        /* Header */
+        header {
+            background: #5563DE;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+            header h1 {
+                font-size: 2rem;
+                margin-bottom: 8px;
+            }
+
+            header p {
+                font-size: 1.1rem;
+            }
+
+        /* Chat window area */
+        .chat-window {
+            flex: 1;
+            padding: 20px;
+            background: #f4f4f9;
+            overflow-y: auto;
+        }
+
+        /* Each message row */
+        .message {
+            display: flex;
+            margin-bottom: 14px;
+            align-items: flex-start;
+        }
+            /* Align user (right) vs. bot (left) */
+            .message.user {
+                justify-content: flex-end;
+            }
+
+            .message.bot {
+                justify-content: flex-start;
+            }
+
+        /* Chat bubble styling */
+        .bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 1rem; /* Larger font */
+            line-height: 1.6; /* More line spacing */
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        /* User bubble (blue) */
+        .message.user .bubble {
+            background: #5563DE;
+            color: #fff;
+            border-bottom-right-radius: 0;
+        }
+
+        /* Bot bubble (light grey) */
+        .message.bot .bubble {
+            background: #e6e6e6;
+            color: #333;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Input container at bottom */
+        .input-container {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+            .input-container input {
+                flex: 1;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 1rem;
+            }
+
+            .input-container button {
+                padding: 12px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                background: #5563DE;
+                color: #fff;
+                font-size: 1rem;
+                transition: background 0.3s ease;
+            }
+
+                .input-container button:hover {
+                    background: #4351b5;
+                }
+
+        #voiceBtn {
+            background: #007bff;
+        }
+
+            #voiceBtn:hover {
+                background: #0056b3;
+            }
+    </style>
+
+    <script>
+        // Convert **bold** syntax to <strong> for better styling
+        function parseBoldSyntax(input) {
+            // This regex finds text between ** and replaces it with <strong>
+            return input.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
+        // Helper function to append a message in a chat bubble
+        function appendMessage(sender, text) {
+            const chatWindow = document.getElementById("chatWindow");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", sender);
+
+            const bubble = document.createElement("div");
+            bubble.classList.add("bubble");
+
+            // Parse ** for bold
+            bubble.innerHTML = parseBoldSyntax(text);
+
+            messageDiv.appendChild(bubble);
+            chatWindow.appendChild(messageDiv);
+
+            // Auto-scroll to bottom
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function getLocationAndSendMessage(text = null) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        sendMessage(latitude, longitude, text);
+                    },
+                    function (error) {
+                        console.log("Error getting location: ", error);
+                        sendMessage(null, null, text);
+                    }
+                );
+            } else {
+                console.log("Geolocation is not supported.");
+                sendMessage(null, null, text);
+            }
+        }
+
+        function sendMessage(latitude, longitude, text = null) {
+            const userMessage = text || document.getElementById("message").value.trim();
+            if (!userMessage) return;
+
+            // Append user's message (on the right)
+            appendMessage("user", `**You:** ${userMessage}`);
+
+            fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    message: userMessage,
+                    latitude: latitude,
+                    longitude: longitude,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        appendMessage("bot", `**Error:** ${data.error}`);
+                    } else {
+                        // Bot's main response
+                        appendMessage("bot", `**Bot:**\n${data.response}`);
+
+                        // Optional location text
+                        if (data.location) {
+                            appendMessage("bot", `**Location:** ${data.location}`);
+                        }
+                        // Play TTS audio
+                        let audio = new Audio(data.audio_path);
+                        audio.play();
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    appendMessage("bot", `**Error:** Something went wrong.`);
+                });
+
+            // Clear the input field
+            document.getElementById("message").value = "";
+        }
+
+        function startVoiceRecognition() {
+            let recognition = new (window.SpeechRecognition ||
+                window.webkitSpeechRecognition)();
+            recognition.lang = "en-US";
+            recognition.start();
+
+            recognition.onresult = function (event) {
+                const voiceText = event.results[0][0].transcript;
+                document.getElementById("message").value = voiceText;
+                getLocationAndSendMessage(voiceText);
+            };
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MAPLELAW</h1>
+            <p>Your Ontario Legal Chatbot</p>
+        </header>
+
+        <div class="chat-window" id="chatWindow">
+            <!-- Chat messages will appear here -->
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="message" placeholder="Ask a legal question..." />
+            <button onclick="getLocationAndSendMessage()">Ask</button>
+            <button id="voiceBtn" onclick="startVoiceRecognition()">🎤 Speak</button>
+        </div>
+    </div>
+</body>
+</html>
