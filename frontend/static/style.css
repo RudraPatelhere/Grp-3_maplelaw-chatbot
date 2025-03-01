@@ -1,83 +1,161 @@
-/* Reset defaults */
+/* Reset Defaults */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Overall page styling */
+/* General Page Styling */
 body {
     font-family: 'Roboto', Arial, sans-serif;
-    background: linear-gradient(135deg, #74ABE2, #5563DE);
+    background: linear-gradient(135deg, #6D83F2, #4C60D1);
     color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Card container using Bootstrap classes for spacing */
+/* Card container with shadow for a modern look */
 .card {
-    border-radius: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 600px;
 }
 
-/* Chat window styling */
+/* Chat Window Styling */
 .chat-window {
-    background: #f4f4f9;
+    background: #ffffff;
     height: 400px;
     overflow-y: auto;
     padding: 15px;
-    border: 1px solid #ddd;
     border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
-/* Chat message styling */
+/* Chat Message Styling */
 .chat-message {
-    margin-bottom: 15px;
+    display: flex;
+    margin-bottom: 10px;
+    align-items: flex-start;
 }
 
+/* Align user messages to the right */
 .message.user {
-    text-align: right;
+    justify-content: flex-end;
 }
 
+/* Align bot messages to the left */
 .message.bot {
-    text-align: left;
+    justify-content: flex-start;
 }
 
-/* Chat bubble styling */
+/* Chat Bubble Styling */
 .bubble {
     display: inline-block;
     padding: 12px 16px;
     border-radius: 20px;
     font-size: 1rem;
     line-height: 1.6;
-    max-width: 70%;
+    max-width: 75%;
     word-wrap: break-word;
     white-space: pre-wrap;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* User bubble */
+/* User Bubble */
 .message.user .bubble {
-    background: #5563DE;
+    background: #4C60D1;
     color: #fff;
     border-bottom-right-radius: 0;
 }
 
-/* Bot bubble */
+/* Bot Bubble */
 .message.bot .bubble {
-    background: #e6e6e6;
+    background: #e9ecef;
     color: #333;
     border-bottom-left-radius: 0;
 }
 
-/* Location text styling */
+/* Location Text Styling */
 .location-text {
     font-size: 0.9rem;
     color: #6c757d;
 }
 
-/* Audio player container */
-.audio-container {
-    text-align: center;
+/* Input and Button Styling */
+.input-group input {
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 1rem;
 }
 
-/* Input container additional styling (if needed) */
-.input-container input {
-    border-radius: 20px;
+/* Button Styling */
+button {
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/* Ask Button */
+.btn-primary {
+    background-color: #4C60D1;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background-color: #3b4db0;
+    }
+
+/* Voice Button */
+#voiceBtn {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+}
+
+    #voiceBtn:hover {
+        background-color: #138496;
+    }
+
+/* Listen Button */
+#listenBtn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    display: none; /* Hidden by default until audio is available */
+}
+
+    #listenBtn:hover {
+        background-color: #218838;
+    }
+
+/* Audio Player Container */
+.audio-container {
+    text-align: center;
+    display: none;
+}
+
+    .audio-container audio {
+        width: 100%;
+        max-width: 400px;
+        margin-top: 10px;
+    }
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .chat-window {
+        height: 350px;
+    }
+
+    .bubble {
+        max-width: 85%;
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+    }
 }

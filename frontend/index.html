@@ -4,16 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MAPLELAW Chatbot</title>
+
     <!-- Bootstrap CSS for a modern design -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" />
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="static/style.css" />
 </head>
 <body>
     <div class="container my-4">
-        <div class="card shadow-sm">
+        <div class="card shadow-lg">
             <div class="card-header bg-primary text-white text-center">
                 <h1>MAPLELAW</h1>
                 <p>Your Ontario Legal Chatbot</p>
@@ -22,15 +25,23 @@
                 <div id="chatWindow" class="chat-window mb-3">
                     <!-- Chat messages will appear here -->
                 </div>
-                <div class="input-container d-flex mb-3">
+
+                <div class="input-group mb-3">
                     <input type="text" id="message" class="form-control" placeholder="Ask a legal question..." />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" onclick="getLocationAndSendMessage()">Ask ❓</button>
+                    </div>
                 </div>
-                <div class="d-flex">
-                    <button class="btn btn-primary flex-fill mr-2" onclick="getLocationAndSendMessage()">Ask Question ❓</button>
-                    <button id="voiceBtn" class="btn btn-info flex-fill" onclick="startVoiceRecognition()">🎤 Speak</button>
+
+                <div class="d-flex justify-content-between">
+                    <button id="voiceBtn" class="btn btn-info flex-fill mx-1" onclick="startVoiceRecognition()">🎤 Speak</button>
+                    <button id="listenBtn" class="btn btn-warning flex-fill mx-1" onclick="playBotResponse()" style="display: none;">🔊 Listen</button>
                 </div>
-                <div id="location" class="location-text mt-3"></div>
-                <div id="audioPlayerContainer" class="audio-container mt-3" style="display: none;">
+
+                <div id="location" class="text-muted mt-3"></div>
+
+                <!-- Audio Player (Hidden initially) -->
+                <div id="audioPlayerContainer" class="audio-container mt-3 text-center" style="display: none;">
                     <audio id="audioPlayer" controls class="w-100"></audio>
                 </div>
             </div>
@@ -40,7 +51,8 @@
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
+
+    <!-- Custom JavaScript -->
     <script src="static/script.js"></script>
 </body>
 </html>
