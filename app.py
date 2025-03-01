@@ -4,6 +4,9 @@ import pyttsx3
 import os
 import time
 from geopy.geocoders import Nominatim  # For geolocation functionality
+import requests
+from bs4 import BeautifulSoup
+import urllib.parse
 
 app = Flask(__name__)
 
@@ -43,6 +46,26 @@ def get_location_from_coordinates(latitude, longitude):
     except Exception as e:
         print(f"Error in geocoding: {e}")
         return "Unable to retrieve location"
+
+# Google Scholar Search Function
+def search_google_scholar(query):
+    query_encoded = urllib.parse.quote(query)
+    url = f"https://scholar.google.com/scholar?q={query_encoded}&hl=en"
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
+    
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        results = []
+        
+        for result in soup.find_all('h3', {'class': 'gs_rt'}):
+            title = result.get_text()
+            link = result.find('a')['href']
+            results.append({'title': title, 'link': link})
+        
+        return results
+    else:
+        return []
 
 # Serve UI Page
 @app.route("/")
@@ -88,7 +111,15 @@ def chat():
         # Convert bot response to speech
         audio_path = text_to_speech(bot_response)
 
-        return jsonify({"response": bot_response, "audio_path": audio_path, "location": location_text})
+        # Search Google Scholar for relevant articles
+        scholar_results = search_google_scholar(user_message)
+
+        return jsonify({
+            "response": bot_response,
+            "audio_path": audio_path,
+            "location": location_text,
+            "scholar_results": scholar_results
+        })
 
     except Exception as e:
         return jsonify({"error": str(e)})

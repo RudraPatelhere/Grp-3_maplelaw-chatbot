@@ -20,9 +20,13 @@
   <body>
     <div class="container">
       <h1 class="text-center mb-4">Legal Chatbot 🤖</h1>
+
+      <!-- Chat Box -->
       <div class="chat-box" id="chat-box">
         <!-- Chat messages will be appended here -->
       </div>
+
+      <!-- User Question Input -->
       <div class="form-group">
         <input
           type="text"
@@ -49,6 +53,7 @@
         </button>
       </div>
 
+      <!-- Location Information -->
       <div id="location" class="location-text"></div>
 
       <!-- Listen to Audio Button -->
@@ -69,6 +74,21 @@
           Your browser does not support the audio element.
         </audio>
       </div>
+
+      <!-- Google Scholar Search Section -->
+      <div class="google-scholar-container mt-5">
+        <h3 class="text-center">Search Similar Legal Cases</h3>
+        <button
+          class="btn btn-danger btn-lg btn-scholar"
+          onclick="searchGoogleScholar()"
+        >
+          <i class="fas fa-search"></i> Search Google Scholar
+        </button>
+      </div>
+
+      <div id="scholar-results" class="mt-3">
+        <!-- Google Scholar results will be appended here -->
+      </div>
     </div>
 
     <!-- Bootstrap JS and jQuery -->
@@ -76,5 +96,41 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Link to external JavaScript -->
     <script src="/static/js/script.js"></script>
+
+    <script>
+      // Function to handle Google Scholar search
+      function searchGoogleScholar() {
+        // Get the question from the chat box
+        const userMessage = document.getElementById("message").value;
+
+        if (!userMessage) {
+          alert("Please enter a legal question first!");
+          return;
+        }
+
+        // Create the Google Scholar search URL
+        const searchUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(
+          userMessage
+        )}`;
+
+        // Append the search link to the chat box as a response
+        appendToChatBox("I found these relevant cases for you: ");
+        appendToChatBox(
+          `<a href="${searchUrl}" target="_blank">Click here to view the search results</a>`
+        );
+      }
+
+      // Function to append messages to the chat box
+      function appendToChatBox(message) {
+        const chatBox = document.getElementById("chat-box");
+        const newMessage = document.createElement("div");
+        newMessage.classList.add("chat-message");
+        newMessage.innerHTML = message;
+        chatBox.appendChild(newMessage);
+        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+      }
+
+      // You can add any other chat-related functions like location or voice recognition here
+    </script>
   </body>
 </html>
