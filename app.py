@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import google.generativeai as genai
 import pyttsx3
 import os
+import time
 from geopy.geocoders import Nominatim  # For geolocation functionality
 
 app = Flask(__name__)
@@ -16,9 +17,20 @@ os.makedirs(AUDIO_DIR, exist_ok=True)
 
 # Function to Convert Text to Speech
 def text_to_speech(text):
-    audio_file = os.path.join(AUDIO_DIR, "response.mp3")
+    # Create a unique filename using timestamp to ensure a new file every time
+    timestamp = str(int(time.time()))  # Get current timestamp to avoid name clashes
+    audio_file = os.path.join(AUDIO_DIR, f"response_{timestamp}.mp3")
     tts_engine.save_to_file(text, audio_file)
     tts_engine.runAndWait()
+
+    # Delete the old audio files (if any) to keep only the latest one
+    files = os.listdir(AUDIO_DIR)
+    if len(files) > 1:  # If there are more than one file
+        files.sort(key=lambda x: os.path.getmtime(os.path.join(AUDIO_DIR, x)))  # Sort by modification time
+        old_files = files[:-1]  # Keep only the most recent file
+        for old_file in old_files:
+            os.remove(os.path.join(AUDIO_DIR, old_file))  # Delete old files
+
     return audio_file
 
 # Geolocation Function to Convert Coordinates to Location
