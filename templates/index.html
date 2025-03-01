@@ -4,131 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Legal Chatbot</title>
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="/static/css/styles.css" />
     <!-- Font Awesome for icons -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
       rel="stylesheet"
     />
-    <style>
-      body {
-        font-family: "Roboto", sans-serif;
-        background-color: #f0f2f5;
-      }
-      .container {
-        margin-top: 50px;
-        background-color: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      }
-      h1 {
-        font-size: 2.5rem;
-        color: #007bff;
-      }
-      .chat-box {
-        height: 400px;
-        overflow-y: auto;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        background-color: #f8f9fa;
-        margin-bottom: 20px;
-      }
-      .chat-message {
-        margin-bottom: 15px;
-      }
-      .chat-message .user-message {
-        background-color: #007bff;
-        color: white;
-        padding: 12px;
-        border-radius: 15px;
-        max-width: 75%;
-        word-wrap: break-word;
-        margin-left: auto;
-      }
-      .chat-message .bot-message {
-        background-color: #e9ecef;
-        color: #333;
-        padding: 12px;
-        border-radius: 15px;
-        max-width: 75%;
-        word-wrap: break-word;
-        margin-right: auto;
-      }
-      .btn-send,
-      .btn-google-scholar,
-      .btn-voice {
-        border-radius: 50px;
-        padding: 12px 25px;
-        width: 100%;
-        margin-top: 10px;
-        text-align: center;
-        border: none;
-        font-size: 16px;
-        transition: all 0.3s ease;
-      }
-      .btn-send {
-        background-color: #007bff;
-        color: white;
-      }
-      .btn-google-scholar {
-        background-color: #dc3545;
-        color: white;
-      }
-      .btn-voice {
-        background-color: #28a745;
-        color: white;
-      }
-      .btn-send:hover {
-        background-color: #0056b3;
-        transform: scale(1.05);
-      }
-      .btn-google-scholar:hover {
-        background-color: #bd2130;
-        transform: scale(1.05);
-      }
-      .btn-voice:hover {
-        background-color: #1e7e34;
-        transform: scale(1.05);
-      }
-      .btn-send i,
-      .btn-google-scholar i,
-      .btn-voice i {
-        margin-right: 10px;
-      }
-      .location-text {
-        font-size: 0.9rem;
-        color: #6c757d;
-        margin-top: 10px;
-      }
-      .audio-container {
-        margin-top: 10px;
-        text-align: center;
-      }
-      .audio-container audio {
-        width: 100%;
-        max-width: 400px;
-      }
-      .chat-box::-webkit-scrollbar {
-        width: 8px;
-      }
-      .chat-box::-webkit-scrollbar-thumb {
-        background: #007bff;
-        border-radius: 10px;
-      }
-    </style>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="container">
       <h1 class="text-center mb-4">Legal Chatbot 🤖</h1>
+
+      <!-- Chat Box -->
       <div class="chat-box" id="chat-box">
         <!-- Chat messages will be appended here -->
       </div>
+
+      <!-- User Question Input -->
       <div class="form-group">
         <input
           type="text"
@@ -138,109 +36,101 @@
           aria-label="Ask a legal question"
         />
       </div>
-      <div class="d-flex">
-        <button class="btn btn-send flex-fill mr-2" onclick="getLocationAndSendMessage()">
-          <i class="fas fa-paper-plane"></i> Ask Gemini AI
+
+      <!-- Buttons -->
+      <div class="button-container text-center">
+        <button
+          class="btn btn-primary btn-lg btn-send"
+          onclick="getLocationAndSendMessage()"
+        >
+          <i class="fas fa-paper-plane"></i> Ask Question ❓
         </button>
-        <button class="btn btn-google-scholar flex-fill" onclick="searchGoogleScholar()">
-          <i class="fas fa-balance-scale"></i> Ask Google Scholar
+        <button
+          class="btn btn-success btn-lg btn-voice"
+          onclick="startVoiceRecognition()"
+        >
+          <i class="fas fa-microphone"></i> 🎤 Speak
         </button>
       </div>
-      <button class="btn btn-voice" onclick="startVoiceRecognition()">
-        <i class="fas fa-microphone"></i> 🎤 Speak
-      </button>
+
+      <!-- Location Information -->
       <div id="location" class="location-text"></div>
 
+      <!-- Listen to Audio Button -->
+      <div id="listenButtonContainer" style="display: none">
+        <button id="listenButton" class="btn btn-info" onclick="playAudio()">
+          Listen to Audio 🎧
+        </button>
+      </div>
+
       <!-- Audio Player -->
-      <div class="audio-container" id="audioPlayerContainer" style="display: none">
+      <div
+        class="audio-container"
+        id="audioPlayerContainer"
+        style="display: none"
+      >
         <audio id="audioPlayer" controls>
           <source id="audioSource" src="" type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
+      </div>
+
+      <!-- Google Scholar Search Section -->
+      <div class="google-scholar-container mt-5">
+        <h3 class="text-center">Search Similar Legal Cases</h3>
+        <button
+          class="btn btn-danger btn-lg btn-scholar"
+          onclick="searchGoogleScholar()"
+        >
+          <i class="fas fa-search"></i> Search Google Scholar
+        </button>
+      </div>
+
+      <div id="scholar-results" class="mt-3">
+        <!-- Google Scholar results will be appended here -->
       </div>
     </div>
 
     <!-- Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Link to external JavaScript -->
+    <script src="/static/js/script.js"></script>
+
     <script>
+      // Function to handle Google Scholar search
       function searchGoogleScholar() {
-        let userMessage = document.getElementById("message").value;
+        // Get the question from the chat box
+        const userMessage = document.getElementById("message").value;
 
-        // Display user message
-        appendMessage("user", userMessage);
-
-        // Fetch case law from Google Scholar
-        fetch("/google_scholar", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: userMessage }),
-        })
-        .then(response => response.json())
-        .then(data => {
-          // Display Google Scholar legal cases
-          appendMessage("bot", data.response);
-        })
-        .catch(error => console.error("Error:", error));
-      }
-
-      function getLocationAndSendMessage(text = null) {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            function (position) {
-              let latitude = position.coords.latitude;
-              let longitude = position.coords.longitude;
-              sendMessage(latitude, longitude, text);
-            },
-            function (error) {
-              console.log("Error getting location: ", error);
-              sendMessage(null, null, text);
-            }
-          );
-        } else {
-          console.log("Geolocation is not supported.");
-          sendMessage(null, null, text);
+        if (!userMessage) {
+          alert("Please enter a legal question first!");
+          return;
         }
+
+        // Create the Google Scholar search URL
+        const searchUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(
+          userMessage
+        )}`;
+
+        // Append the search link to the chat box as a response
+        appendToChatBox("I found these relevant cases for you: ");
+        appendToChatBox(
+          `<a href="${searchUrl}" target="_blank">Click here to view the search results</a>`
+        );
       }
 
-      function sendMessage(latitude, longitude, text = null) {
-        let userMessage = text || document.getElementById("message").value;
-        appendMessage("user", userMessage);
-
-        fetch("/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            message: userMessage,
-            latitude: latitude,
-            longitude: longitude,
-          }),
-        })
-        .then(response => response.json())
-        .then(data => {
-          appendMessage("bot", data.response);
-          if (data.audio_path) {
-            let audioPlayer = document.getElementById("audioPlayer");
-            let audioSource = document.getElementById("audioSource");
-            audioSource.src = data.audio_path;
-            audioPlayer.load();
-            audioPlayer.play();
-            document.getElementById("audioPlayerContainer").style.display = "block";
-          }
-        })
-        .catch(error => console.error("Error:", error));
+      // Function to append messages to the chat box
+      function appendToChatBox(message) {
+        const chatBox = document.getElementById("chat-box");
+        const newMessage = document.createElement("div");
+        newMessage.classList.add("chat-message");
+        newMessage.innerHTML = message;
+        chatBox.appendChild(newMessage);
+        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
       }
 
-      function appendMessage(sender, message) {
-        const messageDiv = document.createElement("div");
-        messageDiv.classList.add("chat-message");
-        const messageText = document.createElement("div");
-        messageText.classList.add(sender + "-message");
-        messageText.innerHTML = message;
-        messageDiv.appendChild(messageText);
-        document.getElementById("chat-box").appendChild(messageDiv);
-        document.getElementById("chat-box").scrollTop = document.getElementById("chat-box").scrollHeight;
-      }
+      // You can add any other chat-related functions like location or voice recognition here
     </script>
   </body>
 </html>
