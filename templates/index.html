@@ -1,94 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Legal Chatbot</title>
+    <title>MapleLaw</title>
     <!-- Link to external CSS -->
     <link rel="stylesheet" href="/static/css/styles.css" />
     <!-- Font Awesome for icons -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          rel="stylesheet" />
     <!-- Bootstrap CSS -->
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          rel="stylesheet" />
+</head>
+<body>
     <div class="container">
-      <h1 class="text-center mb-4">Legal Chatbot 🤖</h1>
+        <!-- Floating Developer Info Button (Right Side) -->
+        <div id="dev-info-toggle" class="dev-info-toggle">Dev Info</div>
 
-      <!-- Chat Box -->
-      <div class="chat-box" id="chat-box">
-        <!-- Chat messages will be appended here -->
-      </div>
+        <!-- Floating Developer Info Panel -->
+        <div id="dev-info-panel" class="dev-info-panel">
+            <h3 class="panel-heading">3 Students from Bachelors in Computer Science, Conestoga Waterloo</h3>
+            <div class="dev-info-container">
+                <div class="dev">
+                    <img src="/static/images/Rudra.jpg" alt="Rudra" class="dev-photo" />
+                    <p class="dev-name">Rudra Patel</p>
+                    <p class="dev-role">Project Manager & Full Stack Developer</p>
+                </div>
+                <div class="dev">
+                    <img src="/static/images/Jainish.jpg" alt="Jainish" class="dev-photo" />
+                    <p class="dev-name">Jainish Prajapati</p>
+                    <p class="dev-role">Backend Developer & Frontend Developer</p>
+                </div>
+                <div class="dev">
+                    <img src="/static/images/Henil.jpg" alt="Henil" class="dev-photo" />
+                    <p class="dev-name">Henil Patel</p>
+                    <p class="dev-role">UI/UX Designer & QA Specialist</p>
+                </div>
+            </div>
+        </div>
 
-      <!-- User Question Input -->
-      <div class="form-group">
-        <input
-          type="text"
-          class="form-control"
-          id="message"
-          placeholder="Ask a legal question..."
-          aria-label="Ask a legal question"
-        />
-      </div>
+        <!-- Floating Guide Button (Left Side) -->
+        <div id="guide-toggle" class="guide-toggle">Guide</div>
 
-      <!-- Buttons -->
-      <div class="button-container text-center">
-        <button
-          class="btn btn-primary btn-lg btn-send"
-          onclick="getLocationAndSendMessage()"
-        >
-          <i class="fas fa-paper-plane"></i> Ask Question ❓
-        </button>
-        <button
-          class="btn btn-success btn-lg btn-voice"
-          onclick="startVoiceRecognition()"
-        >
-          <i class="fas fa-microphone"></i> 🎤 Speak
-        </button>
-      </div>
+        <!-- Floating Guide Panel -->
+        <div id="guide-panel" class="guide-panel">
+            <h3 class="panel-heading">User Guide</h3>
+            <p class="guide-content">
+                Welcome to MapleLaw! To get started, type your legal question in the input field and click "Ask Question" or use voice recognition by clicking "Speak". Your query will be processed and you will receive a detailed legal response. Additionally, you can search for similar legal cases via the Google Scholar section.
+            </p>
+        </div>
 
-      <!-- Location Information -->
-      <div id="location" class="location-text"></div>
+        <!-- Header Section -->
+        <header class="text-center mb-4">
+            <img src="/static/images/maplelaw.jpg"
+                 alt="MapleLaw Logo"
+                 class="img-fluid mb-2"
+                 style="max-width: 150px;" />
+            <h1 class="text-center mb-2">MapleLaw</h1>
+            <h2 class="text-center mb-4">Simplifying Law, One Chat at a Time</h2>
+        </header>
 
-      <!-- Listen to Audio Button -->
-      <div id="listenButtonContainer" style="display: none">
-        <button id="listenButton" class="btn btn-info" onclick="playAudio()">
-          Listen to Audio 🎧
-        </button>
-      </div>
+        <!-- Chat Box -->
+        <div class="chat-box" id="chat-box">
+            <!-- Chat messages will be appended here -->
+        </div>
 
-      <!-- Audio Player -->
-      <div
-        class="audio-container"
-        id="audioPlayerContainer"
-        style="display: none"
-      >
-        <audio id="audioPlayer" controls>
-          <source id="audioSource" src="" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-      </div>
+        <!-- User Question Input -->
+        <div class="form-group">
+            <input type="text"
+                   class="form-control"
+                   id="message"
+                   placeholder="Ask a legal question..."
+                   aria-label="Ask a legal question" />
+        </div>
 
-      <!-- Google Scholar Search Section -->
-      <div class="google-scholar-container mt-5">
-        <h3 class="text-center">Search Similar Legal Cases</h3>
-        <button
-          class="btn btn-danger btn-lg btn-scholar"
-          onclick="searchGoogleScholar()"
-        >
-          <i class="fas fa-search"></i> Search Web 🌐
-        </button>
-      </div>
+        <!-- Buttons -->
+        <div class="button-container text-center">
+            <button class="btn btn-primary btn-lg btn-send"
+                    onclick="getLocationAndSendMessage()">
+                <i class="fas fa-paper-plane"></i> Ask Question
+            </button>
+            <button class="btn btn-success btn-lg btn-voice"
+                    onclick="startVoiceRecognition()">
+                <i class="fas fa-microphone"></i> Speak
+            </button>
+        </div>
 
-      <div id="scholar-results" class="mt-3">
-        <!-- Google Scholar results will be appended here -->
-      </div>
+        <!-- Location Information -->
+        <div id="location" class="location-text"></div>
+
+        <!-- Listen to Audio Button -->
+        <div id="listenButtonContainer" style="display: none">
+            <button id="listenButton" class="btn btn-info" onclick="playAudio()">
+                Listen to Audio 🎧
+            </button>
+        </div>
+
+        <!-- Audio Player -->
+        <div class="audio-container" id="audioPlayerContainer" style="display: none">
+            <audio id="audioPlayer" controls>
+                <source id="audioSource" src="" type="audio/mpeg" />
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
+        <!-- Google Scholar Search Section -->
+        <div class="google-scholar-container mt-5">
+            <h3 class="text-center">Search Similar Legal Cases</h3>
+            <button class="btn btn-danger btn-lg btn-scholar"
+                    onclick="searchGoogleScholar()">
+                <i class="fas fa-search"></i> Web 🌐
+            </button>
+        </div>
+
+        <div id="scholar-results" class="mt-3">
+            <!-- Google Scholar results will be appended here -->
+        </div>
     </div>
 
     <!-- Bootstrap JS and jQuery -->
@@ -98,61 +126,66 @@
     <script src="/static/js/script.js"></script>
 
     <script>
-      // Function to handle Google Scholar search
-function searchGoogleScholar() {
-    const userMessage = document.getElementById("message").value;
+        // Toggle Developer Info Panel
+        const toggleDevInfo = () => {
+            const panel = document.getElementById("dev-info-panel");
+            panel.style.display = panel.style.display === "block" ? "none" : "block";
+        };
+        document.getElementById("dev-info-toggle").addEventListener("click", toggleDevInfo);
 
-    if (!userMessage) {
-        alert("Please enter a legal question first!");
-        return;
-    }
+        // Toggle Guide Panel
+        const toggleGuidePanel = () => {
+            const panel = document.getElementById("guide-panel");
+            panel.style.display = panel.style.display === "block" ? "none" : "block";
+        };
+        document.getElementById("guide-toggle").addEventListener("click", toggleGuidePanel);
+    </script>
 
-    fetch("http://127.0.0.1:5003/scholar_search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: userMessage }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            appendToChatBox("Error: " + data.error);
-            return;
+    <script>
+        // Function to handle Google Scholar search
+        function searchGoogleScholar() {
+            const userMessage = document.getElementById("message").value;
+            if (!userMessage) {
+                alert("Please enter a legal question first!");
+                return;
+            }
+            fetch("http://127.0.0.1:5003/scholar_search", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: userMessage }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.error) {
+                        appendToChatBox("Error: " + data.error);
+                        return;
+                    }
+                    // Display search results in the chatbox
+                    appendToChatBox("<strong>🔍 Top 10 Relevant Articles:</strong>");
+                    data.results.forEach((result, index) => {
+                        appendToChatBox(
+                            `<strong>${index + 1}.</strong> <a href="${result.link}" target="_blank">${result.title}</a>`
+                        );
+                    });
+                    // Provide a link to Google Scholar for further exploration
+                    appendToChatBox(
+                        `<br><a href="${data.scholar_link}" target="_blank"><strong>🔗 View More on Google Scholar</strong></a>`
+                    );
+                })
+                .catch((error) =>
+                    appendToChatBox("Error fetching results: " + error)
+                );
         }
 
-        // Display search results in the chatbox
-        appendToChatBox("<strong>🔍 Top 10 Relevant Articles:</strong>");
-        data.results.forEach((result, index) => {
-            appendToChatBox(`<strong>${index + 1}.</strong> <a href="${result.link}" target="_blank">${result.title}</a>`);
-        });
-
-        // Provide a link to Google Scholar for further exploration
-        appendToChatBox(`<br><a href="${data.scholar_link}" target="_blank"><strong>🔗 View More on Google Scholar</strong></a>`);
-    })
-    .catch(error => appendToChatBox("Error fetching results: " + error));
-}
-
-// Function to append messages to the chat box
-function appendToChatBox(message) {
-    const chatBox = document.getElementById("chat-box");
-    const newMessage = document.createElement("div");
-    newMessage.classList.add("chat-message");
-    newMessage.innerHTML = message;
-    chatBox.appendChild(newMessage);
-    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
-}
-
-
-      // Function to append messages to the chat box
-      function appendToChatBox(message) {
-        const chatBox = document.getElementById("chat-box");
-        const newMessage = document.createElement("div");
-        newMessage.classList.add("chat-message");
-        newMessage.innerHTML = message;
-        chatBox.appendChild(newMessage);
-        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
-      }
-
-      // You can add any other chat-related functions like location or voice recognition here
+        // Function to append messages to the chat box (for Google Scholar results)
+        function appendToChatBox(message) {
+            const chatBox = document.getElementById("chat-box");
+            const newMessage = document.createElement("div");
+            newMessage.classList.add("chat-message");
+            newMessage.innerHTML = message;
+            chatBox.appendChild(newMessage);
+            chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
+        }
     </script>
-  </body>
+</body>
 </html>
