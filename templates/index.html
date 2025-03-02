@@ -82,7 +82,7 @@
           class="btn btn-danger btn-lg btn-scholar"
           onclick="searchGoogleScholar()"
         >
-          <i class="fas fa-search"></i> Search Google Scholar
+          <i class="fas fa-search"></i> Search Web 🌐
         </button>
       </div>
 
@@ -99,26 +99,48 @@
 
     <script>
       // Function to handle Google Scholar search
-      function searchGoogleScholar() {
-        // Get the question from the chat box
-        const userMessage = document.getElementById("message").value;
+function searchGoogleScholar() {
+    const userMessage = document.getElementById("message").value;
 
-        if (!userMessage) {
-          alert("Please enter a legal question first!");
-          return;
+    if (!userMessage) {
+        alert("Please enter a legal question first!");
+        return;
+    }
+
+    fetch("http://127.0.0.1:5003/scholar_search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: userMessage }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            appendToChatBox("Error: " + data.error);
+            return;
         }
 
-        // Create the Google Scholar search URL
-        const searchUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(
-          userMessage
-        )}`;
+        // Display search results in the chatbox
+        appendToChatBox("<strong>🔍 Top 10 Relevant Articles:</strong>");
+        data.results.forEach((result, index) => {
+            appendToChatBox(`<strong>${index + 1}.</strong> <a href="${result.link}" target="_blank">${result.title}</a>`);
+        });
 
-        // Append the search link to the chat box as a response
-        appendToChatBox("I found these relevant cases for you: ");
-        appendToChatBox(
-          `<a href="${searchUrl}" target="_blank">Click here to view the search results</a>`
-        );
-      }
+        // Provide a link to Google Scholar for further exploration
+        appendToChatBox(`<br><a href="${data.scholar_link}" target="_blank"><strong>🔗 View More on Google Scholar</strong></a>`);
+    })
+    .catch(error => appendToChatBox("Error fetching results: " + error));
+}
+
+// Function to append messages to the chat box
+function appendToChatBox(message) {
+    const chatBox = document.getElementById("chat-box");
+    const newMessage = document.createElement("div");
+    newMessage.classList.add("chat-message");
+    newMessage.innerHTML = message;
+    chatBox.appendChild(newMessage);
+    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll
+}
+
 
       // Function to append messages to the chat box
       function appendToChatBox(message) {

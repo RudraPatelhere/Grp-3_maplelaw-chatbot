@@ -17,6 +17,20 @@ genai.configure(api_key="AIzaSyDj91yfPhGELCd4-hh6BK6c8g_xfK52aZs")
 tts_engine = pyttsx3.init()
 AUDIO_DIR = "static/audio"
 os.makedirs(AUDIO_DIR, exist_ok=True)
+# Endpoint to handle Google Scholar search requests
+
+@app.route("/scholar_search", methods=["POST"])
+def scholar_search():
+    data = request.json
+    query = data.get("query", "")
+    
+    if not query:
+        return jsonify({"error": "No query provided"}), 400
+
+    results = search_google_scholar(query)
+    scholar_link = f"https://scholar.google.com/scholar?q={urllib.parse.quote(query)}"
+
+    return jsonify({"results": results, "scholar_link": scholar_link})
 
 # Function to Convert Text to Speech
 def text_to_speech(text):
@@ -125,4 +139,6 @@ def chat():
         return jsonify({"error": str(e)})
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5003)
+
+
