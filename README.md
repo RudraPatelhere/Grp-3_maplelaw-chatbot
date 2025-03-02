@@ -3,11 +3,11 @@
 MAPLELAW is a legal chatbot designed to provide legal information and guidance based on user queries and location. The chatbot utilizes **Google Gemini AI** for legal responses and integrates **text-to-speech** functionality to allow users to listen to the responses.
 
 ## Features
-? **Interactive Chat Interface** – Users can type or speak their legal questions.  
-? **Location-Based Responses** – Uses geolocation to provide context-aware legal information.  
-? **Text-to-Speech Support** – Converts responses into audio for a better experience.  
-? **Modern UI** – Designed with Bootstrap for a clean and responsive interface.  
-? **Multi-Platform Support** – Works on desktop and mobile devices.  
+? **Interactive Chat Interface** â€“ Users can type or speak their legal questions.  
+? **Location-Based Responses** â€“ Uses geolocation to provide context-aware legal information.  
+? **Text-to-Speech Support** â€“ Converts responses into audio for a better experience.  
+? **Modern UI** â€“ Designed with Bootstrap for a clean and responsive interface.  
+? **Multi-Platform Support** â€“ Works on desktop and mobile devices.  
 
 ---
 
@@ -55,35 +55,34 @@ python backend/app.py --host=0.0.0.0 --port=5000
 
 ## Usage Instructions
 
-1?? Open the chatbot UI in your browser.  
-2?? Enter a legal question or use voice input to ask.  
-3?? The bot will respond with structured legal information.  
-4?? Click the **?? Listen** button to hear the response.  
-5?? If enabled, the chatbot will provide location-based legal guidance.  
+1. Open the chatbot UI in your browser.  
+2. Enter a legal question or use voice input to ask.  
+3. The bot will respond with structured legal information.  
+4. Click the **?? Listen** button to hear the response.  
+5. If enabled, the chatbot will provide location-based legal guidance.  
 
 ---
 
 ## Technologies Used
-- **Flask** – Backend framework for API handling.
-- **Google Gemini AI** – AI-based legal response generation.
-- **Geopy** – Converts user coordinates into location-based responses.
-- **pyttsx3** – Text-to-speech functionality.
-- **Bootstrap 4** – Responsive UI framework.
-- **JavaScript & jQuery** – Frontend scripting.
+- **Flask** â€“ Backend framework for API handling.
+- **Google Gemini AI** â€“ AI-based legal response generation.
+- **Geopy** â€“ Converts user coordinates into location-based responses.
+- **pyttsx3** â€“ Text-to-speech functionality.
+- **Bootstrap 4** â€“ Responsive UI framework.
+- **JavaScript & jQuery** â€“ Frontend scripting.
 
 ---
 
 ## Future Enhancements
-?? Multi-language support.  
-?? Improved AI-generated responses with better legal references.  
-?? Enhanced voice interaction with natural voice synthesis.  
-?? Deployment using Docker or cloud-based hosting.
+1 Multi-language support.  
+2 Improved AI-generated responses with better legal references.  
+3 Enhanced voice interaction with natural voice synthesis.  
+4 Deployment using Docker or cloud-based hosting.
 
 ---
 
 ## Contributors
-????? **Your Name** – Lead Developer  
-?? Contact: your.email@example.com  
+  
 
 ---
 
